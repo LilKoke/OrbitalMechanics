@@ -1,4 +1,4 @@
-function plot_planets(t, fig_num)
+function [fig_num pos_list] = plot_planets(t, fig_num)
 y = t(1);
 m = t(2);
 D = t(3);
@@ -61,4 +61,6 @@ plot3(xm,ym,zm, 'o');
 plot3(xj,yj,zj, 'o');
 % カメラ視線方向の設定
 view(-65,20);
+
+pos_list = [xe ye ze xm ym zm xj yj zj];
 end
