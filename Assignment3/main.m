@@ -23,20 +23,30 @@ arrival_t = [2024 1 1 0];
 % 飛行時間
 T_f = arrival_t - launch_t;
 
-% sを求める
+% r1, r2を求める
 [fig_num pos_list] = plot_planets(launch_t, fig_num);
 savefig(strcat('figure',num2str(fig_num),".fig"));
 fig_num = fig_num + 1;
 
-r_1 = norm(pos_list(1:3));
+r1 = pos_list(1:3);
 
 [fig_num pos_list] = plot_planets(arrival_t, fig_num);
-r_2 = norm(pos_list(7:9));
+r_2 = pos_list(7:9);
 savefig(strcat('figure',num2str(fig_num),".fig"));
 fig_num = fig_num + 1;
 
-c = norm(pos_list(7:9) - pos_list(1:3));
+% 遷移角を計算
+dnu = dot(r1, r2) / norm(r1) / norm(r2);
 
-s = (r_1 + r_2 + c) / 2;
+% c, am, s, Tm, betamを計算
+c = sqrt(norm(r1)^2 + norm(r2)^2 - 2 * dot(r1, r2))
+am - (norm(r1) + norm(r2) + c) / 4;
+s = 2 * am;
+Tm = 2 * PI * sqrt(am^3 / r);
+betam = 2 * asin(sqrt((s - c) / s));
 
-disp(s);
+% 最小エネルギー楕円軌道での飛行時間を計算する
+if 360 * N <= dnu && dnu <= 180 * (2 * N + 1)
+    dtm = N * Tm + sqrt(am^3 / nu) * (pi - (betam - sin(betam)));
+elseif 180 * (2 * N + 1) <= dnu && dnu <= 360  * (N + 1)
+    dtm = N * Tm + sqrt(am^3 / nu) * (pi + (betam - sin(betam)));
