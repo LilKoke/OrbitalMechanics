@@ -21,7 +21,7 @@ launch_t = [2023 1 1 0];
 arrival_t = [2024 1 1 0];
 
 % 飛行時間
-T_f = arrival_t - launch_t;
+dt = arrival_t - launch_t;
 
 % r1, r2を求める
 [fig_num pos_list] = plot_planets(launch_t, fig_num);
@@ -42,11 +42,25 @@ dnu = dot(r1, r2) / norm(r1) / norm(r2);
 c = sqrt(norm(r1)^2 + norm(r2)^2 - 2 * dot(r1, r2))
 am - (norm(r1) + norm(r2) + c) / 4;
 s = 2 * am;
-Tm = 2 * PI * sqrt(am^3 / r);
+% Tm = 2 * PI * sqrt(am^3 / r);
 betam = 2 * asin(sqrt((s - c) / s));
 
-% 最小エネルギー楕円軌道での飛行時間を計算する
-if 360 * N <= dnu && dnu <= 180 * (2 * N + 1)
-    dtm = N * Tm + sqrt(am^3 / nu) * (pi - (betam - sin(betam)));
-elseif 180 * (2 * N + 1) <= dnu && dnu <= 360  * (N + 1)
-    dtm = N * Tm + sqrt(am^3 / nu) * (pi + (betam - sin(betam)));
+% % 最小エネルギー楕円軌道での飛行時間を計算する
+% if 360 * N <= dnu && dnu <= 180 * (2 * N + 1)
+%     dtm = N * Tm + sqrt(am^3 / nu) * (pi - (betam - sin(betam)));
+% elseif 180 * (2 * N + 1) <= dnu && dnu <= 360  * (N + 1)
+%     dtm = N * Tm + sqrt(am^3 / nu) * (pi + (betam - sin(betam)));
+
+% 放物線軌道での飛行時間を計算
+if 0 <= dnu && dnu <= 180
+    dtp = 1 / 3 * sqrt(2 / nu) * (s ^ (3/2) - (s - c)^(3/2));
+elseif 180 <= dnu && dnu <= 360
+    dtpt = 1 / 3 * sqrt(2 / nu) * (s ^ (3/2) + (s - c)^(3/2));
+end
+
+if dt > dtp
+    orbit_type = "ellipse"
+elseif dt = dtp
+    orbit_type = "parabola"
+elseif
+    orbit_type = "hyperbola"
