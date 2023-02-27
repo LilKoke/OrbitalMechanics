@@ -1,4 +1,4 @@
-nu = 1.327e11;
+mu = 1.327e11;
 
 fig_num = 1;
 t = [2023 1 1 0];
@@ -47,17 +47,11 @@ s = 2 * am;
 % Tm = 2 * PI * sqrt(am^3 / r);
 betam = 2 * asin(sqrt((s - c) / s));
 
-% % 最小エネルギー楕円軌道での飛行時間を計算する
-% if 360 * N <= dnu && dnu <= 180 * (2 * N + 1)
-%     dtm = N * Tm + sqrt(am^3 / nu) * (pi - (betam - sin(betam)));
-% elseif 180 * (2 * N + 1) <= dnu && dnu <= 360  * (N + 1)
-%     dtm = N * Tm + sqrt(am^3 / nu) * (pi + (betam - sin(betam)));
-
 % 放物線軌道での飛行時間を計算
 if 0 <= dnu && dnu <= deg2rad(180)
-    dtp = 1 / 3 * sqrt(2 / nu) * (s ^ (3/2) - (s - c)^(3/2));
+    dtp = 1 / 3 * sqrt(2 / mu) * (s ^ (3/2) - (s - c)^(3/2));
 elseif deg2rad(180) <= dnu && dnu <= deg2rad(360)
-    dtpt = 1 / 3 * sqrt(2 / nu) * (s ^ (3/2) + (s - c)^(3/2));
+    dtpt = 1 / 3 * sqrt(2 / mu) * (s ^ (3/2) + (s - c)^(3/2));
 end
 
 if dt > dtp
@@ -69,5 +63,7 @@ else
 end
 
 if orbit_type == "ellipse"
-    [v1, v2] = calc_dv_ellipse(am, mu, s, c, dnu);
+    [v1, v2, nu1, nu2] = calc_dv_ellipse(am, mu, s, c, dnu, norm(r1), norm(r2), r1, r2);
+elseif orbit_type == "hyperbola"
+    [v1, v2, nu1, nu2] = calc_dv_hyperbola(am, mu, s, c, dnu, norm(r1), norm(r2), r1, r2);
 end
