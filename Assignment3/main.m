@@ -33,6 +33,8 @@ for i = 1:12
         dv = norm(v1) + norm(v2);
         if dv < best_dv
             best_dv = dv
+            best_launch_t = launch_t;
+            best_arrival_t = arrival_t;
         end
     end
 end
@@ -43,10 +45,7 @@ end
 savefig(strcat('figure', num2str(fig_num), ".fig"));
 fig_num = fig_num + 1;
 
-r1 = pos_list(1:3);
-
 [fig_num, pos_list] = plot_planets(arrival_t, fig_num);
-r2 = pos_list(7:9);
 savefig(strcat('figure', num2str(fig_num), ".fig"));
 fig_num = fig_num + 1;
 
