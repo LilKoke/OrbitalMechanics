@@ -1,9 +1,8 @@
-function [v1, v2, nu1, nu2] = calc_dv_hyperbola(a, mu, s, c, dnu, r1, r2, r1v, r2v)
+function [v1, v2, nu1, nu2] = calc_dv_hyperbola(a, mu, s, c, dnu, r1, r2, r1v, r2v, dt)
     % 初期値を計算
     gamma = 2 * asinh(sqrt(s / (-2 * a)));
     delta = 2 * asin(sqrt((s - c) / (-2 * a)));
-    dt = 1;
-    dtat = 1;
+    dtat = 367;
 
     while abs(dt - dtat) > dt * 1e-5
 
