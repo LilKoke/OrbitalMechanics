@@ -20,16 +20,23 @@ fig_num = fig_num + 1;
 
 % 設定
 % 出発時刻
+best_dv = inf;
 for i = 1:12
     for j = i+1:12
         launch_t = juliandate([2023 i 1]);
         arrival_t = juliandate([2023 j 1]);
         % 飛行時間
         dt = arrival_t - launch_t;
+        r1 = calculate_earth_pos(launch_t);
+        r2 = calculate_mars_pos(arrival_t);
+        [v1, v2, nu1, nu2] = lambert(r1, r2, dt);
+        dv = norm(v1) + norm(v2);
+        if dv < best_dv
+            best_dv = dv
+        end
     end
 end
 
-[v1, v2, nu1, nu2] = 
 
 % r1, r2を求める
 [fig_num, pos_list] = plot_planets(launch_t, fig_num);
