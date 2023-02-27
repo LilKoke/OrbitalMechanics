@@ -1,4 +1,4 @@
-function [v1, v2] = calc_dv_ellipse(a, nu, s, c, dnu)
+function [v1, v2] = calc_dv_ellipse(a,mu, s, c, dnu)
     % 初期値を計算
     T = 2 * pi * sqrt(a ^ 3 / nu);
     alpha = 2 * asin(sqrt(s / (2 * a)));

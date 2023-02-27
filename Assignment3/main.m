@@ -67,3 +67,7 @@ elseif dt == dtp
 else
     orbit_type = "hyperbola";
 end
+
+if orbit_type == "ellipse"
+    [v1, v2] = calc_dv_ellipse(am, mu, s, c, dnu);
+end
