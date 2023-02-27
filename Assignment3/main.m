@@ -29,10 +29,11 @@ for i = 1:12
         dt = arrival_t - launch_t;
         r1 = calculate_earth_pos(launch_t);
         r2 = calculate_mars_pos(arrival_t);
-        [v1, v2, nu1, nu2] = lambert(r1, r2, dt);
+        N = 0;
+        [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N);
         dv = norm(v1) + norm(v2);
         if dv < best_dv
-            best_dv = dv
+            best_dv = dv;
             best_launch_t = launch_t;
             best_arrival_t = arrival_t;
         end
