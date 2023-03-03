@@ -21,11 +21,13 @@ fig_num = fig_num + 1;
 % 設定
 % 出発時刻
 best_dv = inf;
-dv_matrix = ones(12, 500);
-for i = 1:12
+dv_matrix = ones(24, 500);
+X = ones(size(dv_matrix));
+Y = ones(size(dv_matrix));
+for i = 1:24
     for j = 1:500
-       launch_t = juliandate([2024 i 1]);
-       arrival_t = juliandate([2024 i j]);
+       launch_t = juliandate([1960 i 1]);
+       arrival_t = juliandate([1960 i (j+10)]);
       % 飛行時間
        dt = (arrival_t - launch_t) / 3.1688087814029E-08;
        r1 = calculate_earth_pos(launch_t);
@@ -34,6 +36,8 @@ for i = 1:12
        [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N);
        dv = norm(v1) + norm(v2);
        dv_matrix(i, j) = dv;
+       X(i, j) = i * 30;
+       Y(i, j) = j+10;
        if dv < best_dv
            best_dv = dv;
            best_launch_t = i;
@@ -41,6 +45,10 @@ for i = 1:12
        end
     end
 end
+
+fig_num = plot_porkchop(X, Y, dv_matrix, fig_num);
+savefig(strcat('figure', num2str(fig_num), ".fig"));
+fig_num = fig_num + 1;
 
 % r1, r2を求める
 [fig_num, pos_list] = plot_planets(launch_t, fig_num);

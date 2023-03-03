@@ -70,8 +70,8 @@ fig_num = plot_2Dtrajectory(x_list, y_list, x_label, y_label, fig_title, fig_num
 rv0_circ = [1; 0; 0; v0xz2(1); v0y; v0xz2(2)];
 rv_circ = calculate_rv(n, rv0_circ, num_itr, T);
 [best_tB, best_dV_B, best_dV1_B, best_dV2_B] = calculate_best_tb(n, rv_circ, 1/3, num_itr, T);
-disp(best_tB);
-disp(best_dV_B);
+disp("t_B:" + best_tB);
+disp("dV_B:" + best_dV_B);
 
 %1-5*************************
 [best_tC, best_dV_C, best_dV1_C, best_dV2_C] = calculate_best_tb(n, rv_circ, 2/3, num_itr, T);
