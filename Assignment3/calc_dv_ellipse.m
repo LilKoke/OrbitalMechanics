@@ -61,7 +61,7 @@ function [v1, v2, nu1, nu2] = calc_dv_ellipse(am, mu, s, c, dnu, r1, r2, r1v, r2
 
     % 真近点離角を計算する
     if (0 < dnu && dnu < pi) || (pi < dnu && dnu < 2 * pi)
-        cosnu1 = dot(r1v, r2v) / (r1 * r2);
+        cosnu1 = (p - r1) / (e * r1);
         nu1 = asin((cosnu1 * cos(dnu) - (p - r2) / (e * r2)) / sin(dnu));
         nu2 = nu1 + dnu;
     elseif dnu == 0 || dnu == 2 * pi

@@ -26,8 +26,8 @@ X = ones(size(dv_matrix));
 Y = ones(size(dv_matrix));
 for i = 1:24
     for j = 1:500
-       launch_t = juliandate([1960 i 1]);
-       arrival_t = juliandate([1960 i (j+10)]);
+       launch_t = juliandate([2024 i 1]);
+       arrival_t = juliandate([2024 i (j+10)]);
       % 飛行時間
        dt = (arrival_t - launch_t) / 3.1688087814029E-08;
        r1 = calculate_earth_pos(launch_t);
@@ -40,8 +40,8 @@ for i = 1:24
        Y(i, j) = j+10;
        if dv < best_dv
            best_dv = dv;
-           best_launch_t = i;
-           best_arrival_t = j;
+           best_launch_i = i;
+           best_arrival_j = j;
        end
     end
 end
@@ -50,16 +50,18 @@ fig_num = plot_porkchop(X, Y, dv_matrix, fig_num);
 savefig(strcat('figure', num2str(fig_num), ".fig"));
 fig_num = fig_num + 1;
 
-% r1, r2を求める
-[fig_num, pos_list] = plot_planets(launch_t, fig_num);
-savefig(strcat('figure', num2str(fig_num), ".fig"));
-fig_num = fig_num + 1;
-
-[fig_num, pos_list] = plot_planets(arrival_t, fig_num);
-savefig(strcat('figure', num2str(fig_num), ".fig"));
-fig_num = fig_num + 1;
-
 [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N);
 dv = norm(v1) + norm(v2);
 
-
+launch_t = juliandate([2024 best_launch_i 1]);
+arrival_t = juliandate([2024 best_launch_i (best_arrival_j+10)]);
+% 飛行時間
+dt = (arrival_t - launch_t) / 3.1688087814029E-08;
+r1 = calculate_earth_pos(launch_t);
+r2 = calculate_mars_pos(arrival_t);
+N = 0;
+[v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N);
+disp(v1)
+disp(v2)
+disp(nu1)
+disp(nu2)

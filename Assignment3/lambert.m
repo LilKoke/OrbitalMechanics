@@ -4,10 +4,9 @@ function [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N)
     cosdnu = dot(r1, r2) / norm(r1) / norm(r2);
     k = [0 0 1];
     sindnu = sign(dot(cross(r1, r2),k))*sqrt(1 - cosdnu^2);
-    if sindnu < 0
-        dnu = 2 * pi - acos(cosdnu);
-    else
-        dnu = acos(cosdnu);
+    dnu = asin(sindnu);
+    if dnu < 0
+        dnu = dnu +  2 * pi;
     end
 
     % c, am, s, Tm, betamを計算
