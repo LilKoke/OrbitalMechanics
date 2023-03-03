@@ -8,5 +8,5 @@ function pos_list = calculate_mars_pos(d)
     Mm = deg2rad(18.6021 + 0.5240207766 * d);
     [xm, ym, zm] = calculate_planet_pos(Nm, im, wm, am, em, Mm);
 
-    pos_list = [xm ym zm]*1.496e8;
+    pos_list = [xm ym zm] * 1.496e8;
 end

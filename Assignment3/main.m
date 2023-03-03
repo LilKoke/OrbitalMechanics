@@ -24,26 +24,31 @@ best_dv = inf;
 dv_matrix = ones(24, 500);
 X = ones(size(dv_matrix));
 Y = ones(size(dv_matrix));
+
 for i = 1:24
+
     for j = 1:500
-       launch_t = juliandate([2024 i 1]);
-       arrival_t = juliandate([2024 i (j+10)]);
-      % 飛行時間
-       dt = (arrival_t - launch_t) / 3.1688087814029E-08;
-       r1 = calculate_earth_pos(launch_t);
-       r2 = calculate_mars_pos(arrival_t);
-       N = 0;
-       [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N);
-       dv = norm(v1) + norm(v2);
-       dv_matrix(i, j) = dv;
-       X(i, j) = i * 30;
-       Y(i, j) = j+10;
-       if dv < best_dv
-           best_dv = dv;
-           best_launch_i = i;
-           best_arrival_j = j;
-       end
+        launch_t = juliandate([2024 i 1]);
+        arrival_t = juliandate([2024 i (j + 10)]);
+        % 飛行時間
+        dt = (arrival_t - launch_t) / 3.1688087814029E-08;
+        r1 = calculate_earth_pos(launch_t);
+        r2 = calculate_mars_pos(arrival_t);
+        N = 0;
+        [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N);
+        dv = norm(v1) + norm(v2);
+        dv_matrix(i, j) = dv;
+        X(i, j) = i * 30;
+        Y(i, j) = j + 10;
+
+        if dv < best_dv
+            best_dv = dv;
+            best_launch_i = i;
+            best_arrival_j = j;
+        end
+
     end
+
 end
 
 fig_num = plot_porkchop(X, Y, dv_matrix, fig_num);
@@ -54,7 +59,7 @@ fig_num = fig_num + 1;
 dv = norm(v1) + norm(v2);
 
 launch_t = juliandate([2024 best_launch_i 1]);
-arrival_t = juliandate([2024 best_launch_i (best_arrival_j+10)]);
+arrival_t = juliandate([2024 best_launch_i (best_arrival_j + 10)]);
 % 飛行時間
 dt = (arrival_t - launch_t) / 3.1688087814029E-08;
 r1 = calculate_earth_pos(launch_t);

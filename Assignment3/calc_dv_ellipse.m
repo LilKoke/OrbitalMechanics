@@ -4,7 +4,7 @@ function [v1, v2, nu1, nu2] = calc_dv_ellipse(am, mu, s, c, dnu, r1, r2, r1v, r2
     T = 2 * pi * sqrt(a ^ 3 / mu);
     alpha = 2 * asin(sqrt(s / (2 * a)));
     beta = 2 * asin(sqrt((s - c) / (2 * a)));
-    dtat = 367 / 3.1688087814029E-08;
+    dtat = 367/3.1688087814029E-08;
 
     while (abs(dt - dtat) > (dt * 1e-5))
         % dtat, dtat/daを計算
@@ -19,6 +19,7 @@ function [v1, v2, nu1, nu2] = calc_dv_ellipse(am, mu, s, c, dnu, r1, r2, r1v, r2
             end
 
         elseif pi * (2 * N + 1) <= dnu && dnu <= 2 * pi * (N + 1)
+
             if dt < dtm
                 dtat = N * T + sqrt(a ^ 3 / mu) * ((alpha - sin(alpha)) + (beta - sin(beta)));
                 dtatda = 3 * T / (2 * a) * N + 3 * dtat / (2 * a) - (s ^ 2 / sin(alpha) + (s - c) ^ 2 / sin(beta)) / sqrt(mu * a ^ 3);
@@ -57,7 +58,6 @@ function [v1, v2, nu1, nu2] = calc_dv_ellipse(am, mu, s, c, dnu, r1, r2, r1v, r2
 
     % eを計算する
     e = sqrt(1 - p / a);
-    
 
     % 真近点離角を計算する
     if (0 < dnu && dnu < pi) || (pi < dnu && dnu < 2 * pi)

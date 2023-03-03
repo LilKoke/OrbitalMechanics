@@ -3,7 +3,7 @@ function [v1, v2, nu1, nu2] = calc_dv_hyperbola(am, mu, s, c, dnu, r1, r2, r1v, 
     a = 1.1 * am;
     gamma = 2 * asinh(sqrt(s / (-2 * a)));
     delta = 2 * asin(sqrt((s - c) / (-2 * a)));
-    dtat = 367 / 3.1688087814029E-08;
+    dtat = 367/3.1688087814029E-08;
 
     while abs(dt - dtat) > dt * 1e-5
 
