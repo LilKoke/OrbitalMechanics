@@ -1,7 +1,14 @@
 function [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N)
 
     % 遷移角を計算
-    dnu = acos(dot(r1, r2) / norm(r1) / norm(r2));
+    cosdnu = dot(r1, r2) / norm(r1) / norm(r2);
+    k = [0 0 1];
+    sindnu = sign(dot(cross(r1, r2),k))*sqrt(1 - cosdnu^2);
+    if sindnu < 0
+        dnu = 2 * pi - acos(cosdnu);
+    else
+        dnu = acos(cosdnu);
+    end
 
     % c, am, s, Tm, betamを計算
     c = sqrt(norm(r1) ^ 2 + norm(r2) ^ 2 - 2 * dot(r1, r2));
@@ -17,9 +24,9 @@ function [v1, v2, nu1, nu2] = lambert(r1, r2, dt, mu, N)
     end
 
     % 放物線軌道での飛行時間を計算
-    if 0 <= dnu && dnu <= deg2rad(180)
+    if 0 <= dnu && dnu <= pi
         dtp = 1/3 * sqrt(2 / mu) * (s ^ (3/2) - (s - c) ^ (3/2));
-    elseif deg2rad(180) <= dnu && dnu <= deg2rad(360)
+    elseif pi <= dnu  && dnu <= 2 * pi
         dtp = 1/3 * sqrt(2 / mu) * (s ^ (3/2) + (s - c) ^ (3/2));
     end
 

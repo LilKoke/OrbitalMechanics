@@ -8,5 +8,5 @@ function pos_list = calculate_earth_pos(d)
     Me = deg2rad(356.0470 + 0.9856002585 * d);
     [xe, ye, ze] = calculate_planet_pos(Ne, ie, we, ae, ee, Me);
 
-    pos_list = [xe ye ze];
+    pos_list = [xe ye ze]*1.496e8;
 end
